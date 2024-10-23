@@ -1,4 +1,13 @@
 12
-Add keyword "olympiads" to neerc.ifmo.ru/school/io
-Add keyword "neerc" to neerc.ifmo.ru
-Search "olympiads"
+Add keyword "keyword" to site01
+Add keyword "keyword" to site02
+Add keyword "keyword" to site03
+Add keyword "keyword" to site04
+Add keyword "keyword" to site05
+Add keyword "keyword" to site06
+Add keyword "keyword" to site07
+Add keyword "keyword" to site08
+Add keyword "keyword" to site09
+Add keyword "keyword" to site10
+Add keyword "keyword" to site11
+Search "keyword"

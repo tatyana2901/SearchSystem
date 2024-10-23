@@ -4,7 +4,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.function.Predicate;
 
 public class Site {
     private String siteName;
@@ -20,11 +19,9 @@ public class Site {
                 this.siteName = siteName;
                 allSites.add(this);
             } catch (DoubleObjectException e) {
-
                 System.out.println(e.getMessage());
             }
         }
-
     }
 
     public static Site getObjectByName(String siteName) {
@@ -46,14 +43,6 @@ public class Site {
 
     public String getSiteName() {
         return siteName;
-    }
-
-    public void setSiteName(String siteName) {
-        this.siteName = siteName;
-    }
-
-    public ArrayList<String> getData() {
-        return data;
     }
 
     public String addKeyWord(String keyWord) {
@@ -79,14 +68,14 @@ public class Site {
         return data.contains(keyWord);
     }
 
-    @Override
-    public String toString() {
-        return "Site{" +
-                "siteName='" + siteName + '\'' +
-                '}';
-    }
 
     public static List<String> findSitesOnKeyWord(String keyWord) {
+
+        long count =
+                allSites
+                        .stream()
+                        .filter(site -> site.isWordFound(keyWord))
+                        .count();
 
         ArrayList<String> sites = new ArrayList<>(
                 allSites
@@ -100,9 +89,8 @@ public class Site {
         for (int i = 0; i < sites.size(); i++) {
             sites.set(i, i + 1 + ") " + sites.get(i));
         }
-        sites.addFirst("Results: " + sites.size() + " site(s) found");
+        sites.addFirst("Results: " + count + " site(s) found");
         sites.addLast("=====");
-        // sites.forEach(System.out::println);
         return sites;
     }
 
@@ -117,7 +105,7 @@ public class Site {
         return reader;
     }
 
-    public static void getResult(List<String> request) {
+    public static List<String> getResult(List<String> request) {
         List<String> result = new ArrayList<>();
 
         for (String r : request) {
@@ -125,7 +113,7 @@ public class Site {
 
             if (r.startsWith("Add")) {
                 try {
-                    Site site1 = getObjectByName(req[req.length - 1]);///???
+                    Site site1 = getObjectByName(req[req.length - 1]);
                     String st = site1.addKeyWord(req[2]);
                     result.add(st);
                 } catch (NullPointerException e) {
@@ -138,15 +126,15 @@ public class Site {
                     System.out.println("Попытка удаления ключевого слова из несуществующего сайта!!!");
                 }
             } else if (r.startsWith("Search")) {
-                System.out.println("Итоговый список" + result);
                 result.addAll(findSitesOnKeyWord(req[1]));
             }
-            result.forEach(System.out::println);
-
-
         }
+        result.removeLast();
+        return result;
+    }
 
-
+    public static void printResult(List<String> data) {
+        data.forEach(System.out::println);
     }
 
 }
